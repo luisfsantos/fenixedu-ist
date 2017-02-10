@@ -61,6 +61,8 @@ import org.fenixedu.bennu.struts.annotations.Mapping;
 import org.fenixedu.bennu.struts.portal.EntryPoint;
 import org.fenixedu.bennu.struts.portal.StrutsFunctionality;
 
+import com.google.common.base.Strings;
+
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixedu.integration.domain.ReportFileFactory;
 import pt.ist.fenixedu.quc.domain.reports.AvailableCoursesForQUCReportFile;
@@ -76,12 +78,9 @@ import pt.ist.fenixedu.quc.domain.reports.WorkloadSummaryBoardReportFile;
 import pt.ist.fenixedu.teacher.evaluation.domain.reports.EffectiveTeachingLoadReportFile;
 import pt.ist.fenixedu.teacher.evaluation.domain.reports.TeacherCreditsReportFile;
 import pt.ist.fenixedu.teacher.evaluation.domain.reports.TeachersByShiftReportFile;
-import pt.ist.fenixedu.teacher.evaluation.domain.reports.TeachersListFromGiafReportFile;
 import pt.ist.fenixedu.teacher.evaluation.domain.reports.TimetablesReportFile;
 import pt.ist.fenixedu.tutorship.domain.reports.TutorshipProgramReportFile;
 import pt.ist.fenixframework.FenixFramework;
-
-import com.google.common.base.Strings;
 
 @StrutsFunctionality(app = GepPortalApp.class, path = "reports", titleKey = "link.reports")
 @Mapping(module = "gep", path = "/reportsByDegreeType")
@@ -381,21 +380,6 @@ public class ReportsByDegreeTypeDA extends FenixDispatchAction {
         final String format = getFormat(request);
 
         prepareNewJobResponse(request, ReportFileFactory.createFlunkedReportFile(format, degreeType, executionYear));
-
-        return selectDegreeType(mapping, actionForm, request, response);
-    }
-
-    @SuppressWarnings("unused")
-    public ActionForward downloadTeachersListFromGiaf(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
-        if (isRepeatedJob(AccessControl.getPerson(), request, getClassForParameter(request.getParameter("type")))) {
-            return selectDegreeType(mapping, actionForm, request, response);
-        }
-        final DegreeType degreeType = getDegreeType(request);
-        final ExecutionYear executionYear = getExecutionYear(request);
-        final String format = getFormat(request);
-
-        prepareNewJobResponse(request, ReportFileFactory.createTeachersListFromGiafReportFile(format, degreeType, executionYear));
 
         return selectDegreeType(mapping, actionForm, request, response);
     }
@@ -794,8 +778,7 @@ public class ReportsByDegreeTypeDA extends FenixDispatchAction {
             return RaidesPhdReportFile.class;
         case 16:
             return TutorshipProgramReportFile.class;
-        case 17:
-            return TeachersListFromGiafReportFile.class;
+        //TODO FIX CASE
         case 18:
             return CourseLoadAndResponsiblesReportFile.class;
         case 19:
