@@ -778,40 +778,39 @@ public class ReportsByDegreeTypeDA extends FenixDispatchAction {
             return RaidesPhdReportFile.class;
         case 16:
             return TutorshipProgramReportFile.class;
-        //TODO FIX CASE
-        case 18:
+        case 17:
             return CourseLoadAndResponsiblesReportFile.class;
-        case 19:
+        case 18:
             return TimetablesReportFile.class;
-        case 20:
+        case 19:
             return RaidesSpecializationReportFile.class;
-        case 21:
+        case 20:
             return SummaryOccupancyReportFile.class;
-        case 22:
+        case 21:
             return WrittenEvaluationReportFile.class;
-        case 23:
+        case 22:
             return TeacherCreditsReportFile.class;
-        case 24:
+        case 23:
             return EffectiveTeachingLoadReportFile.class;
-        case 25:
+        case 24:
             return AvailableCoursesForQUCReportFile.class;
-        case 26:
+        case 25:
             return WorkloadSummaryBoardReportFile.class;
-        case 27:
+        case 26:
             return InitialAnswersReportFile.class;
-        case 28:
+        case 27:
             return CoursesAnswersReportFile.class;
-        case 29:
+        case 28:
             return QUCQuestionsReportFile.class;
-        case 30:
+        case 29:
             return DelegatesAnswersReportFile.class;
-        case 31:
+        case 30:
             return TeachersAnswersReportFile.class;
-        case 32:
+        case 31:
             return RegentsAnswersReportFile.class;
-        case 33:
+        case 32:
             return CoordinatorsAnswersReportFile.class;
-        case 34:
+        case 33:
             return FirstTimeCycleAnswersReportFile.class;
         default:
             return null;
