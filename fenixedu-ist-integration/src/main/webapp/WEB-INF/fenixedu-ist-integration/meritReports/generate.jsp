@@ -33,7 +33,16 @@
       <label for="executionYear">Select execution year:</label>
       <select class="form-control" id="executionYear">
         <c:forEach var="executionYear" items="${executionYears}">
-            <option value="${executionYear.externalId}"><c:out value="${executionYear.year.}"/></option>
+            <option value="${executionYear.externalId}"><c:out value="${executionYear.year}"/></option>
+        </c:forEach>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="degreeType">Select degree type:</label>
+      <select class="form-control" id="degreeType">
+        <c:forEach var="degreeType" items="${executionYears}">
+            <option value="${degreeType.externalId}"><c:out value="${degreeType.name}"/></option>
+        </c:forEach>
       </select>
     </div>
     <button type="submit" class="btn btn-default">Submit</button>

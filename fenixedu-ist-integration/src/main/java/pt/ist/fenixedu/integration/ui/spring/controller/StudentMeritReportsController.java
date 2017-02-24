@@ -19,12 +19,14 @@
 
 package pt.ist.fenixedu.integration.ui.spring.controller;
 
-import org.fenixedu.bennu.core.domain.Bennu;
 import org.fenixedu.bennu.spring.portal.SpringApplication;
 import org.fenixedu.bennu.spring.portal.SpringFunctionality;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import pt.ist.fenixedu.integration.ui.spring.service.StudentMeritReportService;
 
 /**
  * Created by Luis Santos on 23-02-2017.
@@ -33,8 +35,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @SpringFunctionality(app = StudentMeritReportsController.class, title = "student.merit.report.title")
 @RequestMapping("/student-merit-reports") public class StudentMeritReportsController {
 
+    @Autowired
+    StudentMeritReportService service;
+
     @RequestMapping(method = RequestMethod.GET) public String generateMeritReport(Model model) {
-        model.addAttribute("executionYears", Bennu.getInstance().getExecutionYearsSet());
+        model.addAttribute("executionYears", service.getExecutionYears());
+        model.addAttribute("degreeTypes", service.getRelevantDegreeTypes());
         return "fenixedu-ist-integration/meritReports/generate";
     }
 }
