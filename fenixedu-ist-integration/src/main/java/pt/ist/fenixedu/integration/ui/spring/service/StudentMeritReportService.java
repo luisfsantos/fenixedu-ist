@@ -19,12 +19,37 @@
 
 package pt.ist.fenixedu.integration.ui.spring.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.fenixedu.academic.domain.Degree;
+import org.fenixedu.academic.domain.DegreeCurricularPlan;
+import org.fenixedu.academic.domain.Enrolment;
 import org.fenixedu.academic.domain.ExecutionYear;
+import org.fenixedu.academic.domain.Grade;
+import org.fenixedu.academic.domain.IEnrolment;
+import org.fenixedu.academic.domain.Person;
+import org.fenixedu.academic.domain.StudentCurricularPlan;
 import org.fenixedu.academic.domain.degree.DegreeType;
+import org.fenixedu.academic.domain.student.Registration;
+import org.fenixedu.academic.domain.student.Student;
+import org.fenixedu.academic.domain.studentCurriculum.Credits;
+import org.fenixedu.academic.domain.studentCurriculum.CurriculumGroup;
+import org.fenixedu.academic.domain.studentCurriculum.CurriculumLine;
+import org.fenixedu.academic.domain.studentCurriculum.CurriculumModule;
+import org.fenixedu.academic.domain.studentCurriculum.Dismissal;
+import org.fenixedu.academic.domain.studentCurriculum.EnrolmentWrapper;
+import org.fenixedu.academic.domain.studentCurriculum.RootCurriculumGroup;
+import org.fenixedu.academic.domain.studentCurriculum.Substitution;
 import org.fenixedu.bennu.core.domain.Bennu;
+import org.fenixedu.commons.spreadsheet.Spreadsheet;
+import org.fenixedu.commons.spreadsheet.Spreadsheet.Row;
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,18 +59,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentMeritReportService {
 
+    private static final MathContext MATH_CONTEXT = new MathContext(3, RoundingMode.HALF_EVEN);
+
     public List<ExecutionYear> getExecutionYears() {
         return Bennu.getInstance().getExecutionYearsSet().stream().sorted(ExecutionYear.COMPARATOR_BY_YEAR.reversed())
                 .collect(Collectors.toList());
     }
 
     public List<DegreeType> getRelevantDegreeTypes() {
-        return DegreeType.all().filter(dt -> dt.isBolonhaDegree() || dt.isBolonhaMasterDegree() || dt.isIntegratedMasterDegree())
-                .collect(Collectors.toList());
+        return DegreeType.all().filter(type -> !type.isEmpty()).sorted().collect(Collectors.toList());
     }
-    /*
+
     private void process(final DegreeType degreeType, final ExecutionYear executionYearForReport) {
-        final Spreadsheet spreadsheet = createHeader();
+        final Spreadsheet spreadsheet = createHeader(executionYearForReport);
         for (final Degree degree : Bennu.getInstance().getDegreesSet()) {
             if (degreeType != degree.getDegreeType()) {
                 continue;
@@ -85,22 +111,21 @@ public class StudentMeritReportService {
         }
         //need to output TODO output(degreeType.getName() + "_", reportFileOS.toByteArray());
     }
-    */
-    /*
-    private Spreadsheet createHeader() {
+
+    private Spreadsheet createHeader(ExecutionYear executionYear) {
         Spreadsheet spreadsheet = new Spreadsheet("MeritStudents");
-    
+        String year = executionYear.getYear();
         spreadsheet.setHeader("Degree");
         spreadsheet.setHeader("Number");
         spreadsheet.setHeader("Name");
-        spreadsheet.setHeader("Credits Enroled in " + EXECUTION_YEAR_STRING);
-        spreadsheet.setHeader("Credits Approved Durring Year " + EXECUTION_YEAR_STRING);
-        spreadsheet.setHeader("Curricular Year During " + EXECUTION_YEAR_STRING);
-        spreadsheet.setHeader("Average in " + EXECUTION_YEAR_STRING);
+        spreadsheet.setHeader("Credits Enroled in " + year);
+        spreadsheet.setHeader("Credits Approved Durring Year " + year);
+        spreadsheet.setHeader("Curricular Year During " + year);
+        spreadsheet.setHeader("Average in " + year);
     
         return spreadsheet;
     }
-    
+
     private double getCredits(final ExecutionYear executionYear, final Student student, final boolean approvedCredits) {
         double creditsCount = 0.0;
         for (final Registration registration : student.getRegistrationsSet()) {
@@ -113,7 +138,7 @@ public class StudentMeritReportService {
         }
         return creditsCount;
     }
-    
+
     private double countCredits(final ExecutionYear executionYear, final Set<CurriculumModule> modules,
             final boolean approvedCredits) {
         double creditsCount = 0.0;
@@ -134,7 +159,7 @@ public class StudentMeritReportService {
         }
         return creditsCount;
     }
-    
+
     private BigDecimal calculateAverage(final Registration registration, final ExecutionYear executionYear) {
         BigDecimal[] result = new BigDecimal[] { new BigDecimal(0.000, MATH_CONTEXT), new BigDecimal(0.000, MATH_CONTEXT) };
         for (final StudentCurricularPlan studentCurricularPlan : registration.getStudentCurricularPlansSet()) {
@@ -145,7 +170,7 @@ public class StudentMeritReportService {
         }
         return result[1].equals(BigDecimal.ZERO) ? result[1] : result[0].divide(result[1], MATH_CONTEXT);
     }
-    
+
     private void calculateAverage(final BigDecimal[] result, final Set<CurriculumModule> modules,
             final ExecutionYear executionYear) {
         for (final CurriculumModule module : modules) {
@@ -197,5 +222,5 @@ public class StudentMeritReportService {
             }
         }
     }
-    */
+
 }

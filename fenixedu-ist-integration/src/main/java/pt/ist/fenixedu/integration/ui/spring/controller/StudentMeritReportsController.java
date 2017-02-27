@@ -19,12 +19,15 @@
 
 package pt.ist.fenixedu.integration.ui.spring.controller;
 
+import org.fenixedu.academic.domain.ExecutionYear;
+import org.fenixedu.academic.domain.degree.DegreeType;
 import org.fenixedu.bennu.spring.portal.SpringApplication;
 import org.fenixedu.bennu.spring.portal.SpringFunctionality;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import pt.ist.fenixedu.integration.ui.spring.service.StudentMeritReportService;
 
@@ -38,9 +41,16 @@ import pt.ist.fenixedu.integration.ui.spring.service.StudentMeritReportService;
     @Autowired
     StudentMeritReportService service;
 
-    @RequestMapping(method = RequestMethod.GET) public String generateMeritReport(Model model) {
+    @RequestMapping(method = RequestMethod.GET)
+    public String chooseMeritReport(Model model) {
         model.addAttribute("executionYears", service.getExecutionYears());
         model.addAttribute("degreeTypes", service.getRelevantDegreeTypes());
+        return "fenixedu-ist-integration/meritReports/generate";
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String generateMeritReport(@RequestParam(value = "executionYear") ExecutionYear executionYear,
+            @RequestParam(value = "degreeType") DegreeType degreeType) {
         return "fenixedu-ist-integration/meritReports/generate";
     }
 }

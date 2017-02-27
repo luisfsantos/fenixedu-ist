@@ -30,7 +30,7 @@
 <spring:url var="formUrl" value="/student-merit-reports" />
 <form role="form" action="${formUrl}/generate" method="POST">
     <div class="form-group">
-      <label for="executionYear">Select execution year:</label>
+      <label for="executionYear"><spring:message code="label.execution.year"/></label>
       <select class="form-control" id="executionYear">
         <c:forEach var="executionYear" items="${executionYears}">
             <option value="${executionYear.externalId}"><c:out value="${executionYear.year}"/></option>
@@ -38,10 +38,10 @@
       </select>
     </div>
     <div class="form-group">
-      <label for="degreeType">Select degree type:</label>
+      <label for="degreeType"><spring:message code="student.degree.type"/></label>
       <select class="form-control" id="degreeType">
-        <c:forEach var="degreeType" items="${executionYears}">
-            <option value="${degreeType.externalId}"><c:out value="${degreeType.name}"/></option>
+        <c:forEach var="degreeType" items="${degreeTypes}">
+            <option value="${degreeType.externalId}"><c:out value="${degreeType.name.content}"/></option>
         </c:forEach>
       </select>
     </div>
