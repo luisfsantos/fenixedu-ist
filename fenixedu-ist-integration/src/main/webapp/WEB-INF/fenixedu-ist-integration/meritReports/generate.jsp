@@ -31,15 +31,15 @@
 <form role="form" action="${formUrl}/generate" method="POST">
     <div class="form-group">
       <label for="executionYear"><spring:message code="label.execution.year"/></label>
-      <select class="form-control" id="executionYear">
+      <select class="form-control" name="executionYear">
         <c:forEach var="executionYear" items="${executionYears}">
             <option value="${executionYear.externalId}"><c:out value="${executionYear.year}"/></option>
         </c:forEach>
       </select>
     </div>
     <div class="form-group">
-      <label for="degreeType"><spring:message code="student.degree.type"/></label>
-      <select class="form-control" id="degreeType">
+      <label for="degreeType"><spring:message code="label.degree.type"/></label>
+      <select class="form-control" name="degreeType">
         <c:forEach var="degreeType" items="${degreeTypes}">
             <option value="${degreeType.externalId}"><c:out value="${degreeType.name.content}"/></option>
         </c:forEach>

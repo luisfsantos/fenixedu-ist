@@ -70,7 +70,7 @@ public class StudentMeritReportService {
         return DegreeType.all().filter(type -> !type.isEmpty()).sorted().collect(Collectors.toList());
     }
 
-    private void process(final DegreeType degreeType, final ExecutionYear executionYearForReport) {
+    public ByteArrayOutputStream generateReport(final DegreeType degreeType, final ExecutionYear executionYearForReport) {
         final Spreadsheet spreadsheet = createHeader(executionYearForReport);
         for (final Degree degree : Bennu.getInstance().getDegreesSet()) {
             if (degreeType != degree.getDegreeType()) {
@@ -109,7 +109,7 @@ public class StudentMeritReportService {
         } catch (final IOException e) {
             throw new Error(e);
         }
-        //need to output TODO output(degreeType.getName() + "_", reportFileOS.toByteArray());
+        return reportFileOS;
     }
 
     private Spreadsheet createHeader(ExecutionYear executionYear) {
@@ -119,7 +119,7 @@ public class StudentMeritReportService {
         spreadsheet.setHeader("Number");
         spreadsheet.setHeader("Name");
         spreadsheet.setHeader("Credits Enroled in " + year);
-        spreadsheet.setHeader("Credits Approved Durring Year " + year);
+        spreadsheet.setHeader("Credits Approved During Year " + year);
         spreadsheet.setHeader("Curricular Year During " + year);
         spreadsheet.setHeader("Average in " + year);
     

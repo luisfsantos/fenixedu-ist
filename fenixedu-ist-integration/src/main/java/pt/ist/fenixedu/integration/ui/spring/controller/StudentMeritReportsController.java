@@ -19,12 +19,19 @@
 
 package pt.ist.fenixedu.integration.ui.spring.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.fenixedu.academic.domain.ExecutionYear;
 import org.fenixedu.academic.domain.degree.DegreeType;
 import org.fenixedu.bennu.spring.portal.SpringApplication;
 import org.fenixedu.bennu.spring.portal.SpringFunctionality;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,9 +55,23 @@ import pt.ist.fenixedu.integration.ui.spring.service.StudentMeritReportService;
         return "fenixedu-ist-integration/meritReports/generate";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String generateMeritReport(@RequestParam(value = "executionYear") ExecutionYear executionYear,
+    @RequestMapping(value = "/generate", method = RequestMethod.POST)
+    public String generateMeritReport(HttpServletResponse response,
+            @RequestParam(value = "executionYear") ExecutionYear executionYear,
             @RequestParam(value = "degreeType") DegreeType degreeType) {
-        return "fenixedu-ist-integration/meritReports/generate";
+
+        ByteArrayOutputStream report = service.generateReport(degreeType, executionYear);
+        String fileName = "Merit_Report" + "_" + degreeType.getName().getContent().replace(" ", "_") + "_"
+                + executionYear.getYear().replace("/", "_");
+
+        response.setContentType("application/vnd.ms-excel");
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + fileName + "\""));
+
+        try {
+            FileCopyUtils.copy(new ByteArrayInputStream(report.toByteArray()), response.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/student-merit-reports";
     }
 }
