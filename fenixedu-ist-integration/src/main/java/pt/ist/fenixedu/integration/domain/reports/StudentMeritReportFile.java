@@ -75,15 +75,15 @@ public class StudentMeritReportFile extends StudentMeritReportFile_Base {
 
     private void generateHeaders(Spreadsheet spreadsheet, ExecutionYear executionYear) {
         spreadsheet.setName(
-                getPrefix() + " of " + Unit.getInstitutionAcronym() + " " + executionYear.getQualifiedName().replace("/", ""));
+                getPrefix() + " " + Unit.getInstitutionAcronym() + " " + executionYear.getQualifiedName().replace("/", ""));
         String year = executionYear.getQualifiedName();
-        spreadsheet.setHeader("Degree");
-        spreadsheet.setHeader("Number");
-        spreadsheet.setHeader("Name");
-        spreadsheet.setHeader("Credits Enroled in " + year);
-        spreadsheet.setHeader("Credits Approved During Year " + year);
-        spreadsheet.setHeader("Curricular Year During " + year);
-        spreadsheet.setHeader("Average in " + year);
+        spreadsheet.setHeader(BundleUtil.getString("resources.FenixeduIstIntegrationResources", "label.degree"));
+        spreadsheet.setHeader(BundleUtil.getString("resources.FenixeduIstIntegrationResources", "label.number"));
+        spreadsheet.setHeader(BundleUtil.getString("resources.FenixeduIstIntegrationResources", "label.name"));
+        spreadsheet.setHeader(BundleUtil.getString("resources.FenixeduIstIntegrationResources", "label.credits.enrolled", year));
+        spreadsheet.setHeader(BundleUtil.getString("resources.FenixeduIstIntegrationResources", "label.credits.approved", year));
+        spreadsheet.setHeader(BundleUtil.getString("resources.FenixeduIstIntegrationResources", "label.curricular.year", year));
+        spreadsheet.setHeader(BundleUtil.getString("resources.FenixeduIstIntegrationResources", "label.average.year", year));
     }
 
     private void renderRow(Spreadsheet spreadsheet, ExecutionYear executionYear, Degree degree, Registration registration,
