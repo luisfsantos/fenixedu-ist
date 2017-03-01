@@ -264,7 +264,7 @@ public class ReportsByDegreeTypeDA extends FenixDispatchAction {
     }
 
     @SuppressWarnings("unused")
-    public ActionForward downloadMeritReport(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
+    public ActionForward downloadMeritReportFile(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
             HttpServletResponse response) throws IOException {
         if (isRepeatedJob(AccessControl.getPerson(), request, getClassForParameter(request.getParameter("type")))) {
             return selectDegreeType(mapping, actionForm, request, response);

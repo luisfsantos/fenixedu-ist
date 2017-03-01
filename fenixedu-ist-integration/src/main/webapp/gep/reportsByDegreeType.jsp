@@ -951,7 +951,7 @@
 <table class="tstyle1 thleft thlight mtop05">
 	<tr>
 		<td style="width: 350px;">
-			${fr:message('resources.FenixEduIntegrationResources', 'label.student.merit.reports')} 
+			${fr:message('resources.FenixeduIstIntegrationResources', 'label.student.merit.reports')} 
 		</td>
 		<td>
 			<bean:define id="urlMeritReportFileCsv" type="java.lang.String"><bean:write name="urlMeritReportFile" filter="false"/>&amp;format=csv&amp;type=35</bean:define>

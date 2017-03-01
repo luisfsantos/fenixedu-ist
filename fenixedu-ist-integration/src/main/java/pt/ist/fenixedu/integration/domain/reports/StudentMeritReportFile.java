@@ -40,12 +40,12 @@ public class StudentMeritReportFile extends StudentMeritReportFile_Base {
 
     @Override
     public String getJobName() {
-        return BundleUtil.getString("resources.FenixeduIntegrationResources", "title.student.merit.report");
+        return BundleUtil.getString("resources.FenixeduIstIntegrationResources", "title.student.merit.report");
     }
 
     @Override
     protected String getPrefix() {
-        return BundleUtil.getString("resources.FenixeduIntegrationResources", "label.student.merit.report.prefix");
+        return BundleUtil.getString("resources.FenixeduIstIntegrationResources", "label.student.merit.report.prefix");
     }
 
     @Override
